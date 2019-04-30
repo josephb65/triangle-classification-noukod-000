@@ -1,10 +1,33 @@
 class Triangle
-  # write code here
-def triangle(a, b, c)
-  raise TriangleError if a<=0 or b<=0 or c<=0
-  raise TriangleError if a+b<=c or b+c<=a or a+c<=b
-  return :equilateral if a==b and a==c                 
-  return :isosceles if a==b or b==c or a==c
-  :scalene                                                                                                       
-end  
+  attr_accessor :s_1, :s_2, :s_3
+
+    def initialize(s_1, s_2, s_3)
+      @s_1 = s_1
+      @s_2 = s_2
+      @s_3 = s_3
+    end
+
+  def kind
+    restriction = (@s_1 > 0),
+                  (@s_2 > 0),
+                  (@s_3 > 0),
+                  (@s_1  + @s_2 > @s_3),
+                  (@s_1  + @s_3 > @s_2),
+                  (@s_3 + @s_2 > @s_1)
+
+    if restriction.include?(false)
+      raise TriangleError
+    end
+
+    if @s_1 == @s_2 && @s_2 == @s_3
+      :equilateral
+    elsif @s_1 == @s_2 || @s_1 == @s_3 || @s_2 == @s_3
+      :isosceles
+    else
+      :scalene
+    end
+  end
+
+  class TriangleError < StandardError
+  end
 end
